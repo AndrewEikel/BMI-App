@@ -1,5 +1,6 @@
 #include <iostream>
 #include <iomanip>
+#include <limits>
 
 double convertToKg(double pounds) {
     return pounds * 0.45;  // conversion rate given
@@ -48,25 +49,25 @@ int main()
         std::cout << "Feet: ";
         std::cin >> feet;
 
-        while (feet < 0) 
+        while (std::cin.fail() || feet < 0)
         {
-            std::cout << "Invalid input for feet. Input 0 or a positive number for feet: ";
+            std::cin.clear(); // clear fail state
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // discard bad input
+
+            std::cout << "Invalid input for feet. Enter a non-negative whole number: ";
             std::cin >> feet;
         }
 
         std::cout << "Inches: ";
         std::cin >> inches;
 
-        while (inches < 0)
+        while (std::cin.fail() || inches < 0)
         {
-            std::cout << "Invalid input for inches. Input 0 or a positive number for inches: ";
-            std::cin >> inches;
-        }
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-        while (inches >= 12)
-        {
-            inches -= 12;
-            feet += 1;
+            std::cout << "Invalid input for inches. Enter a non-negative whole number: ";
+            std::cin >> inches;
         }
 
         if (feet == 0 && inches == 0)
@@ -78,9 +79,12 @@ int main()
         std::cout << "Enter your weight (pounds): ";
         std::cin >> weight;
 
-        while (weight <= 0)
+        while (std::cin.fail() || weight <= 0)
         {
-            std::cout << "Weight must be greater than 0. Input new value for weight: ";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+            std::cout << "Invalid input for weight. Enter a value greater than 0: ";
             std::cin >> weight;
         }
 
